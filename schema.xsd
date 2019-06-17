@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NewSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="STC">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CountRoom" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="CountRoom">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CurrencyCounter" />
+			</xs:sequence>
+			<xs:attribute name="version" />
+			<xs:attribute name="gamingDate" type="xs:dateTime" />
+			<xs:attribute name="transactionDate" type="xs:dateTime" />
+			<xs:attribute name="id" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="CurrencyCounter">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="BillCassette" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="model" />
+			<xs:attribute name="serialNumber" />
+			<xs:attribute name="manufacturer" />
+		</xs:complexType>
+		<xs:unique name="uniqueSlotNumber">
+			<xs:selector xpath="BillCassette"/>
+			<xs:field xpath="@slotNumber"/>
+		</xs:unique>
+	</xs:element>	
+
+	<xs:element name="BillCassette">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CurrencySet" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="slotNumber" type="xs:int" />
+			<xs:attribute name="id" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="CurrencySet">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Currency" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>	
+
+	<xs:element name="Currency">
+		<xs:complexType>
+			<xs:attribute name="type" type="xs:int" />
+			<xs:attribute name="count" type="xs:int" />
+			<xs:attribute name="code" />
+			<xs:attribute name="denomination" />
+		</xs:complexType>
+	</xs:element>  
+</xs:schema>
