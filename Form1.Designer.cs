@@ -82,6 +82,7 @@
             this.btnCheck.TabIndex = 3;
             this.btnCheck.Text = "&Check";
             this.btnCheck.UseVisualStyleBackColor = true;
+            this.btnCheck.Click += new System.EventHandler(this.btnCheck_Click);
             // 
             // frmMain
             // 

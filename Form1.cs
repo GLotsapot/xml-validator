@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Schema;
 
 namespace xmlValidator
 {
@@ -32,6 +34,35 @@ namespace xmlValidator
         private void txtFileName_TextChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void btnCheck_Click(object sender, EventArgs e)
+        {
+            txtOutput.Clear();
+
+            XmlTextReader schemaReader = new XmlTextReader("schema.xsd");
+            XmlSchema schema = XmlSchema.Read(schemaReader, ValidationCallBack);
+
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.ValidationType = ValidationType.Schema;
+            settings.Schemas.Add(schema);
+            // settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessInlineSchema;
+            // settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation;
+            settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
+            settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
+
+            XmlReader reader = XmlReader.Create(txtFileName.Text, settings);
+
+            while (reader.Read()) ;
+
+        }
+
+        private void ValidationCallBack(object sender, ValidationEventArgs e)
+        {
+            if (e.Severity == XmlSeverityType.Warning)
+                txtOutput.Text += "[Warning]: " + e.Message + Environment.NewLine;
+            else
+                txtOutput.Text += e.Message + Environment.NewLine;
         }
     }
 }
