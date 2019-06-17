@@ -16,5 +16,22 @@ namespace xmlValidator
         {
             InitializeComponent();
         }
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            var result = ofdXMLFile.ShowDialog();
+            if(result == DialogResult.OK)
+            {
+                txtFileName.Text = ofdXMLFile.FileName;
+                txtFileName.ReadOnly = true;
+                btnCheck.Enabled = true;
+            }
+            
+        }
+
+        private void txtFileName_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
