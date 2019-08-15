@@ -51,10 +51,21 @@ namespace xmlValidator
             settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
             settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
 
-            XmlReader reader = XmlReader.Create(txtFileName.Text, settings);
 
-            while (reader.Read()) ;
+            using (XmlReader reader = XmlReader.Create(txtFileName.Text, settings))
+            {
+                var slotCount = 0;
 
+                while (reader.Read())
+                {
+                    if (reader.NodeType == XmlNodeType.Element && reader.Name == "BillCassette")
+                    {
+                        slotCount++;
+                    }
+                };
+
+                txtOutput.Text += String.Format("Completed reading file. {0} slots found", slotCount);
+            }
         }
 
         private void ValidationCallBack(object sender, ValidationEventArgs e)
