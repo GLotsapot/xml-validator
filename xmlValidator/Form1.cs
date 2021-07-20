@@ -70,7 +70,9 @@ namespace xmlValidator
 
         private void ValidationCallBack(object sender, ValidationEventArgs e)
         {
-            if (e.Severity == XmlSeverityType.Warning)
+            if (e.Severity == XmlSeverityType.Error)
+                txtOutput.Text += "[Error]: " + e.Message + Environment.NewLine;
+            else if (e.Severity == XmlSeverityType.Warning)
                 txtOutput.Text += "[Warning]: " + e.Message + Environment.NewLine;
             else
                 txtOutput.Text += e.Message + Environment.NewLine;
