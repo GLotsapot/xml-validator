@@ -30,6 +30,10 @@
 			<xs:attribute name="manufacturer" />
 		</xs:complexType>
 		<xs:unique name="uniqueSlotNumber">
+      <xs:annotation>
+        <xs:appinfo>Unique Slot Numbers</xs:appinfo>
+        <xs:documentation>Slot numbers cannot be duplicated</xs:documentation>
+      </xs:annotation>
 			<xs:selector xpath="BillCassette"/>
 			<xs:field xpath="@slotNumber"/>
 		</xs:unique>
@@ -40,7 +44,18 @@
 			<xs:sequence>
 				<xs:element ref="CurrencySet" minOccurs="0" />
 			</xs:sequence>
-			<xs:attribute name="slotNumber" type="xs:int" />
+      <xs:attribute name="slotNumber">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:annotation>
+              <xs:appinfo>Slot Number Lenght Restriction</xs:appinfo>
+              <xs:documentation>Slot numbers are required to be 5 digits</xs:documentation>
+            </xs:annotation>
+            <xs:minInclusive value="10000"/>
+            <xs:maxExclusive value="99999"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
 			<xs:attribute name="id" />
 		</xs:complexType>
 	</xs:element>
